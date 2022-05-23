@@ -45,6 +45,8 @@ public class ConstantServer {
     }
 
     public void start() {
+        System.setProperty("minestom.chunk-view-distance", String.valueOf(4));
+        System.setProperty("minestom.entity-view-distance", String.valueOf(4));
         InstanceManager manager = MinecraftServer.getInstanceManager();
         InstanceContainer instance = manager.createInstanceContainer();
         instance.setGenerator(unit -> unit.modifier().fillHeight(0, 40, Block.GRASS_BLOCK));
