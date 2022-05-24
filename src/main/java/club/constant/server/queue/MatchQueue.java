@@ -2,6 +2,7 @@ package club.constant.server.queue;
 
 import club.constant.server.ConstantServer;
 import club.constant.server.arena.Arena;
+import club.constant.server.arena.type.ArenaType;
 import club.constant.server.kit.Kit;
 import club.constant.server.match.Match;
 import club.constant.server.playerstate.PlayerState;
@@ -92,7 +93,7 @@ public class MatchQueue implements Comparable<MatchQueue> {
             }
             onRed = !onRed;
         }
-        Match match = new Match(new Kit(), new Arena("Arena", new Pos(0, 42, 0), new Pos(0, 42, 10, 180, 0)), blueTeam, redTeam);
+        Match match = new Match(new Kit(), new Arena("Arena", new Pos(0, 42, 0), new Pos(0, 42, 10, 180, 0), ArenaType.PVP), blueTeam, redTeam);
         match.start();
         ended = true;
     }
