@@ -1,5 +1,6 @@
 package club.constant.server.arena;
 
+import club.constant.server.ConstantServer;
 import club.constant.server.arena.state.ArenaState;
 import club.constant.server.arena.type.ArenaType;
 import net.minestom.server.coordinate.Pos;
@@ -11,6 +12,8 @@ public class Arena {
     private final Pos spawn2;
     private final ArenaType type;
 
+    private final ConstantServer server = ConstantServer.INSTANCE;
+
     private ArenaState arenaState = ArenaState.OPEN;
 
     public Arena(String name, Pos spawn1, Pos spawn2, ArenaType type) {
@@ -18,6 +21,7 @@ public class Arena {
         this.spawn1 = spawn1;
         this.spawn2 = spawn2;
         this.type = type;
+        server.getArenaManager().addArena(this);
     }
 
     public String getName() {

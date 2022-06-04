@@ -2,6 +2,7 @@ package club.constant.server.match;
 
 import club.constant.server.ConstantServer;
 import club.constant.server.arena.Arena;
+import club.constant.server.arena.state.ArenaState;
 import club.constant.server.kit.Kit;
 import club.constant.server.match.state.MatchState;
 import club.constant.server.match.team.Team;
@@ -129,7 +130,7 @@ public class Match {
                 MinecraftServer.getGlobalEventHandler().addChild(events());
                 server.getMatchManager().addMatch(this);
                 players.forEach(p -> {
-                    p.sendMessage("Starting!");
+                    p.sendMessage("Starting!" + " " + arena.getName());
                     p.setGameMode(GameMode.ADVENTURE);
                     p.closeInventory();
                     p.setHealth(20);
@@ -137,6 +138,7 @@ public class Match {
                     kit.giveKit(p);
                     server.getPlayerStateManager().setState(p, PlayerState.IN_GAME);
                 });
+                arena.setArenaState(ArenaState.CLOSED);
                 blueTeam.forEach(p -> p.teleport(arena.getSpawn1()));
                 redTeam.forEach(p -> p.teleport(arena.getSpawn2()));
                 MinecraftServer.getSchedulerManager().scheduleTask(new Runnable() {
@@ -174,6 +176,7 @@ public class Match {
                     p.getInventory().clear();
                     server.getPlayerStateManager().setState(p, PlayerState.LOBBY);
                 });
+                arena.setArenaState(ArenaState.OPEN);
                 setState(MatchState.ENDED);
                 server.getMatchManager().getMatches().remove(this);
             }

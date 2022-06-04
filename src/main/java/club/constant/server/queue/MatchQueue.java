@@ -55,7 +55,7 @@ public class MatchQueue implements Comparable<MatchQueue> {
         events.addListener(
                 EventListener.builder(PlayerDisconnectEvent.class)
                         .filter(event -> queue.contains(event.getPlayer()))
-                        .expireWhen(event -> ended == false)
+                        .expireWhen(event -> !ended)
                         .handler(event -> removePlayer(event.getPlayer()))
                         .build()
         );
@@ -93,7 +93,7 @@ public class MatchQueue implements Comparable<MatchQueue> {
             }
             onRed = !onRed;
         }
-        Match match = new Match(new Kit(), new Arena("Arena", new Pos(0, 42, 0), new Pos(0, 42, 10, 180, 0), ArenaType.PVP), blueTeam, redTeam);
+        Match match = new Match(new Kit(), server.getArenaManager().getAvailableArena(ArenaType.PVP), blueTeam, redTeam);
         match.start();
         ended = true;
     }

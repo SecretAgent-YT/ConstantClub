@@ -1,5 +1,7 @@
 package club.constant.server;
 
+import club.constant.server.arena.commands.ArenaCommand;
+import club.constant.server.arena.manager.ArenaManager;
 import club.constant.server.commands.GameModeCommand;
 import club.constant.server.generator.Generator;
 import club.constant.server.match.manager.MatchManager;
@@ -41,6 +43,7 @@ public class ConstantServer {
     private final QueueManager queueManager;
     private final PlayerStateManager playerStateManager;
     private final MatchManager matchManager;
+    private final ArenaManager arenaManager;
 
     private boolean playersCanJoin = false;
 
@@ -50,6 +53,7 @@ public class ConstantServer {
         this.queueManager = new QueueManager();
         this.playerStateManager = new PlayerStateManager();
         this.matchManager = new MatchManager();
+        this.arenaManager = new ArenaManager();
     }
 
     public void start() {
@@ -65,12 +69,13 @@ public class ConstantServer {
             if (!playersCanJoin) player.kick("You can't join yet!");
             player.setGameMode(GameMode.CREATIVE);
             event.setSpawningInstance(instance);
-            player.setRespawnPoint(new Pos(0, 66, 0));
+            player.setRespawnPoint(new Pos(0.5, 66, 0.5));
             getPlayerStateManager().setState(player, PlayerState.LOBBY);
         });
         MinecraftServer.getCommandManager().register(new GameModeCommand());
         MinecraftServer.getCommandManager().register(new QueueCommand());
         MinecraftServer.getCommandManager().register(new LeaveCommand());
+        MinecraftServer.getCommandManager().register(new ArenaCommand());
         instance.setExplosionSupplier(PvpExplosionSupplier.INSTANCE);
         PvpExtension.init();
         System.out.println("Initialized PVP Extension");
@@ -110,6 +115,10 @@ public class ConstantServer {
 
     public MatchManager getMatchManager() {
         return matchManager;
+    }
+
+    public ArenaManager getArenaManager() {
+        return arenaManager;
     }
 
     public static final ConstantServer INSTANCE = new ConstantServer(25565);
